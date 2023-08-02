@@ -2,12 +2,10 @@ import re
 import os
 import openpyxl
 import asyncio
-import asyncio
 import pyfiglet
 import colorama
 from colorama import Fore, Style
 from telethon import TelegramClient, events
-from prettytable import PrettyTable
 from prettytable import PrettyTable
 
 # Initialize colorama
