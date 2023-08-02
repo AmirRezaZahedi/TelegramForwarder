@@ -20,7 +20,7 @@ def print_banner():
     banner_text = pyfiglet.figlet_format("Telegram Forwarder", font=BANNER_FONT)
     banner = f"""
 {Fore.CYAN}{banner_text}{Fore.GREEN}
-Author: Your Name
+Author: AmirReza zahedi
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 {Fore.CYAN}This script extracts IDs from an Excel file,{Fore.GREEN}
 {Fore.CYAN}saves them in 'ids_file.txt', and forwards new{Fore.GREEN}
