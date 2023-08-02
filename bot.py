@@ -45,7 +45,7 @@ def clear_terminal():
 
 
 
-idsListExtract = []
+
 
 
 def extract_ids(text):
@@ -97,8 +97,8 @@ def extract_ids_from_excel(file_path, sheet_name, column_index, start_row, end_r
         print(f"Error: {e}")
         return None, []
 
-
-
+#List of Validate Id
+idsListExtract = []
 
 # Replace with your actual API ID and API Hash
 apiId = int(input(f"Enter {Fore.YELLOW}api_id{Style.RESET_ALL} from 'my.telegram.org': "))
