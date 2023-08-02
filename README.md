@@ -34,14 +34,6 @@ To download and install the Telegram Bulk Message Forwarding Bot:
 1. Clone the repository with Git.
 2. Run the `bot.py` file.
 
-## Usage 🚀
-
-After installation, run the program:
-
-1. Go to the installation location.
-2. Double-click `forward.exe`.
-3. Follow the initial setup steps as prompted.
-
 ## Initial Setup ⚙️
 
 During the first run:
