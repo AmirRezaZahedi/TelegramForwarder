@@ -2,19 +2,16 @@ import re
 import os
 import openpyxl
 import asyncio
+import asyncio
+import pyfiglet
+import colorama
+from colorama import Fore, Style
 from telethon import TelegramClient, events
 from prettytable import PrettyTable
-import os
-import sys
-import asyncio
-import colorama
-import pyfiglet
-from colorama import Fore, Style
-from rich import box
-from rich.table import Table
-from rich.console import Console
 from prettytable import PrettyTable
-from colorama import Fore, Style
+
+# Initialize colorama
+colorama.init(autoreset=True)
 # Set colorama for colored output
 colorama.init()
 
@@ -109,7 +106,7 @@ api_hash = '*'
 api_id = input(f"Enter {Fore.YELLOW}api_id{Style.RESET_ALL} from 'my.telegram.org': ")
 api_hash = input(f"Enter {Fore.YELLOW}api_hash{Style.RESET_ALL} value from 'my.telegram.org': ")
 
-client = TelegramClient('test1234', api_id, api_hash)
+client = TelegramClient('telegramforwarded', api_id, api_hash)
 
 # Function to send a message to a user
 async def send_message_to_user(user, message):
