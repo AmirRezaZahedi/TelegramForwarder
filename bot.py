@@ -63,7 +63,7 @@ def extract_ids(text):
     return ids
 
 # Function to extract IDs from an Excel file
-def extract_ids_from_excel(file_path, sheet_name, column_index):
+def extract_ids_from_excel(file_path, sheet_name, column_index, start_row, end_row):
     try:
         workbook = openpyxl.load_workbook(file_path)
         sheet = workbook[sheet_name]
@@ -74,16 +74,17 @@ def extract_ids_from_excel(file_path, sheet_name, column_index):
         # Initialize an empty list to store problematic row numbers
         problematic_rows = []
         
-        # Loop through each row in the specified column and extract cell values
-        for i, row in enumerate(sheet.iter_rows()):
-            cell_value = row[column_index - 1].value
-            if cell_value is not None:
-                cell_value_str = str(cell_value)
-                column_values.append(cell_value_str)
-                
-                # Check if the cell value is in a valid format (contains @, https://t.me/, or xxx)
-                if not re.search(r"(?:https:\/\/t\.me\/|@|[A-Za-z_0-9]+)", cell_value_str):
-                    problematic_rows.append(i + 1)  # Add the row number to the problematic_rows list
+        # Loop through each row in the specified range and extract cell values
+        for i, row in enumerate(sheet.iter_rows(), start=1):
+            if start_row <= i <= end_row:
+                cell_value = row[column_index - 1].value
+                if cell_value is not None:
+                    cell_value_str = str(cell_value)
+                    column_values.append(cell_value_str)
+                    
+                    # Check if the cell value is in a valid format (contains @, https://t.me/, or xxx)
+                    if not re.search(r"(?:https:\/\/t\.me\/|@|[A-Za-z_0-9]+)", cell_value_str):
+                        problematic_rows.append(i)  # Add the row number to the problematic_rows list
         
         # Concatenate all non-empty cell values to form a single string
         text = " ".join(column_values)
@@ -100,18 +101,17 @@ def extract_ids_from_excel(file_path, sheet_name, column_index):
 
 
 # Replace with your actual API ID and API Hash
-api_id = 0
-api_hash = '*'
+apiId = int(input(f"Enter {Fore.YELLOW}api_id{Style.RESET_ALL} from 'my.telegram.org': "))
+apiHash = input(f"Enter {Fore.YELLOW}api_hash{Style.RESET_ALL} value from 'my.telegram.org': ")
 
-api_id = input(f"Enter {Fore.YELLOW}api_id{Style.RESET_ALL} from 'my.telegram.org': ")
-api_hash = input(f"Enter {Fore.YELLOW}api_hash{Style.RESET_ALL} value from 'my.telegram.org': ")
 
-client = TelegramClient('telegramforwarded', api_id, api_hash)
+
+client = TelegramClient('TelegramForwarded', apiId, apiHash)
 
 # Function to send a message to a user
 async def send_message_to_user(user, message):
     try:
-        await asyncio.sleep(2.5)
+        await asyncio.sleep(10.0)
         print("Id user is: ", user)
         await client.forward_messages(user, message)
     except Exception as e:
@@ -146,7 +146,10 @@ if __name__ == "__main__":
     sheetName = input("Enter sheet name: ")
     columnIndex = int(input("Enter column index (RTL): "))
 
-    idsListExtract, problematic_rows = extract_ids_from_excel(filePath, sheetName, columnIndex)
+    startRow = int(input("Enter start row: "))
+    endRow = int(input("Enter end row: "))
+
+    idsListExtract, problematic_rows = extract_ids_from_excel(filePath, sheetName, columnIndex, startRow, endRow)
 
     if idsListExtract is not None:
         fileName = "ids_file.txt"
