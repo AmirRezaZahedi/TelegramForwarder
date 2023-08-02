@@ -1,8 +1,55 @@
-import os
-import asyncio
-import openpyxl
 import re
+import os
+import openpyxl
+import asyncio
 from telethon import TelegramClient, events
+from prettytable import PrettyTable
+import os
+import sys
+import asyncio
+import colorama
+import pyfiglet
+from colorama import Fore, Style
+from rich import box
+from rich.table import Table
+from rich.console import Console
+from prettytable import PrettyTable
+from colorama import Fore, Style
+# Set colorama for colored output
+colorama.init()
+
+# Custom font for the banner
+BANNER_FONT = "slant"
+
+def print_banner():
+    banner_text = pyfiglet.figlet_format("Telegram Forwarder", font=BANNER_FONT)
+    banner = f"""
+{Fore.CYAN}{banner_text}{Fore.GREEN}
+Author: Your Name
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+{Fore.CYAN}This script extracts IDs from an Excel file,{Fore.GREEN}
+{Fore.CYAN}saves them in 'ids_file.txt', and forwards new{Fore.GREEN}
+{Fore.CYAN}messages from 'me' to the specified users.{Fore.GREEN}
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+"""
+    print(banner)
+
+def print_success(message):
+    print(f"{Fore.GREEN}[SUCCESS] {Style.RESET_ALL}{message}")
+
+def print_error(message):
+    print(f"{Fore.RED}[ERROR] {Style.RESET_ALL}{message}")
+
+def clear_terminal():
+    if os.name == 'nt':  # For Windows
+        os.system('cls')
+    else:  # For other platforms (Linux, macOS)
+        os.system('clear')
+
+
+
+idsListExtract = []
+
 
 def extract_ids(text):
     ids = []
@@ -52,15 +99,17 @@ def extract_ids_from_excel(file_path, sheet_name, column_index):
         print(f"Error: {e}")
         return None, []
 
+
+
+
 # Replace with your actual API ID and API Hash
 api_id = 0
-api_hash = ''
+api_hash = '*'
 
+api_id = input(f"Enter {Fore.YELLOW}api_id{Style.RESET_ALL} from 'my.telegram.org': ")
+api_hash = input(f"Enter {Fore.YELLOW}api_hash{Style.RESET_ALL} value from 'my.telegram.org': ")
 
-
-
-# Initialize the Telegram client
-client = TelegramClient('aicup', api_id, api_hash)
+client = TelegramClient('test1234', api_id, api_hash)
 
 # Function to send a message to a user
 async def send_message_to_user(user, message):
@@ -91,7 +140,9 @@ async def start_client():
 async def run_client():
     await client.run_until_disconnected()
     print("Telegram client disconnected!")
+
 if __name__ == "__main__":
+    print_banner()
 
     fileName = input("Enter Excel file name: ")
     filePath = os.path.join(os.getcwd(), fileName)
@@ -99,28 +150,27 @@ if __name__ == "__main__":
     columnIndex = int(input("Enter column index (RTL): "))
 
     idsListExtract, problematic_rows = extract_ids_from_excel(filePath, sheetName, columnIndex)
-    #idsListExtract = ['test']
-    #problematic_rows = [7]
 
     if idsListExtract is not None:
         fileName = "ids_file.txt"
         with open(fileName, 'w') as file:
             for item in idsListExtract:
                 file.write(item + "\n")
-        print(idsListExtract)
-        print()
-        print("The list was saved in the file ids_file.txt")
-        
-        if problematic_rows:
-            print("\nProblematic Rows (Invalid IDs):")
-            print(problematic_rows)
-        else:
-            print("No problematic rows found.")
 
-    api_id = input('Enter api_id in \'my.telegram.org\'')
-    api_hash = input('Enter api_hash value in \'my.telegram.org\'')
+        print(f"{Fore.GREEN}[SUCCESS] {Style.RESET_ALL}IDs extracted successfully!")
+        print(f"{Fore.GREEN}[SUCCESS] {Style.RESET_ALL}The list was saved in the file {Fore.YELLOW}ids_file.txt{Style.RESET_ALL}")
+
+        if problematic_rows:
+            table = PrettyTable([f"{Fore.BLUE}Problematic Rows (Invalid IDs){Style.RESET_ALL}"])
+            for row in problematic_rows:
+                table.add_row([row])
+            print(table)
+        else:
+            print_success("No problematic rows found.")
 
     print("Starting Telegram client...")
     with client:
         client.loop.run_until_complete(start_client())
         client.loop.run_until_complete(run_client())
+
+
