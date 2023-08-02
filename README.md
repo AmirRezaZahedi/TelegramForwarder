@@ -1,6 +1,6 @@
-# 🚀 TeleForwarder 📢
+# 🚀 TelegramForwarder 📢
 
-The Telegram Message Forwarding Bot simplifies the process of forwarding messages to a large number of recipients on Telegram. Whether you're running a promotional campaign, sending announcements, or sharing content, this bot streamlines communication with your audience.
+The Telegram Message Forwarding Bot simplifies the process of forwarding messages to a large number of recipients on Telegram, facilitating effective communication for various purposes. Whether you're running a promotional campaign, sending announcements, or sharing content, this bot streamlines communication with your targeted audience.This automated tool has been designed to assist the branding team of the AICUP2023 competition in effectively promoting the event.
 
 ## Prerequisites 📋
 
@@ -34,13 +34,7 @@ To download and install the Telegram Bulk Message Forwarding Bot:
 1. Clone the repository with Git.
 2. Run the `bot.py` file.
 
-## Usage 🚀
 
-After installation, run the program:
-
-1. Go to the installation location.
-2. Double-click `forward.exe`.
-3. Follow the initial setup steps as prompted.
 
 ## Initial Setup ⚙️
 
@@ -66,6 +60,7 @@ Recipient IDs are read from the Excel file and stored in a list. IDs can also be
 
 - Follow Telegram's guidelines to avoid account suspension.
 - Keep the Excel file updated within the bot's environment.
+
 
 ## Contributions 🤝
 
